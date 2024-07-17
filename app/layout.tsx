@@ -1,6 +1,8 @@
 import './globals.css'
+import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Theme } from '@radix-ui/themes'
 import StyledJsxRegistry from './lib/registry'
 
 //components
@@ -18,8 +20,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={inter.className}>
         <StyledJsxRegistry>
-          <NavBar />
-          <main>{children}</main>
+          <Theme>
+            <NavBar />
+            <main>{children}</main>
+          </Theme>
         </StyledJsxRegistry>
       </body>
     </html>
