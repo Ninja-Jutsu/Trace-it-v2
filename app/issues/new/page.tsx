@@ -10,6 +10,7 @@ import 'easymde/dist/easymde.min.css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createIssueSchema } from '@/app/zod/zod-schema'
 import { z } from 'zod'
+import ErrorMessage from '@/app/components/ErrorMessage'
 
 // form submit
 import axios from 'axios'
@@ -55,14 +56,7 @@ export default function NewIssuePage() {
         >
           <TextField.Slot />
         </TextField.Root>
-        {errors.title && (
-          <Text
-            color='tomato'
-            as='p'
-          >
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name='description'
           control={control}
@@ -73,14 +67,7 @@ export default function NewIssuePage() {
             />
           )}
         />
-        {errors.description && (
-          <Text
-            color='tomato'
-            as='p'
-          >
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>Submit New Issue</Button>
       </form>
     </div>
