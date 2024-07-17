@@ -1,16 +1,30 @@
 'use client'
 import React from 'react'
-import { TextArea, TextField, Button, Callout } from '@radix-ui/themes'
+import { TextArea, TextField, Button, Callout, Text } from '@radix-ui/themes'
 
-import dynamic from 'next/dynamic' // to lazy load a heavy compo
+// to lazy load SimpleMDEditor (to prevent document not defined error)
+import dynamic from 'next/dynamic'
 import 'easymde/dist/easymde.min.css'
 
+// form validation
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createIssueSchema } from '@/app/zod/zod-schema'
+import { z } from 'zod'
+
+// form submit
 import axios from 'axios'
 import { useForm, Controller } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 
 export default function NewIssuePage() {
-  const { register, control, handleSubmit } = useForm<IssueForm>()
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueForm>({
+    resolver: zodResolver(createIssueSchema),
+  })
   const router = useRouter()
   const [error, setError] = React.useState('')
 
@@ -41,6 +55,14 @@ export default function NewIssuePage() {
         >
           <TextField.Slot />
         </TextField.Root>
+        {errors.title && (
+          <Text
+            color='tomato'
+            as='p'
+          >
+            {errors.title.message}
+          </Text>
+        )}
         <Controller
           name='description'
           control={control}
@@ -51,6 +73,14 @@ export default function NewIssuePage() {
             />
           )}
         />
+        {errors.description && (
+          <Text
+            color='tomato'
+            as='p'
+          >
+            {errors.description.message}
+          </Text>
+        )}
         <Button>Submit New Issue</Button>
       </form>
     </div>
@@ -62,7 +92,9 @@ const SimpleMDEditor = dynamic(() => import('react-simplemde-editor'), {
   loading: () => <p>loading...</p>,
 })
 
-interface IssueForm {
-  title: string
-  description: string
-}
+// interface IssueForm {
+//   title: string
+//   description: string
+// }
+//instead
+type IssueForm = z.infer<typeof createIssueSchema>
