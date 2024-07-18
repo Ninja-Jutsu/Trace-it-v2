@@ -11,7 +11,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 // form validation
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { createIssueSchema } from '@/app/zod/zod-schema'
+import { issueSchema } from '@/app/zod/zod-schema'
 import ErrorMessage from '@/app/components/ErrorMessage'
 
 // form submit
@@ -32,7 +32,7 @@ export default function IssueForm({ issue }: Props) {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   })
   const router = useRouter()
   const [error, setError] = React.useState('')
@@ -98,4 +98,4 @@ const SimpleMDEditor = dynamic(() => import('react-simplemde-editor'), {
 //   description: string
 // }
 //instead
-type IssueFormData = z.infer<typeof createIssueSchema>
+type IssueFormData = z.infer<typeof issueSchema>
