@@ -30,6 +30,15 @@ export default function NewIssuePage() {
   const router = useRouter()
   const [error, setError] = React.useState('')
 
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      await axios.post('/api/issues', data)
+      router.push('/issues')
+    } catch (error) {
+      setError('An error has occurred')
+    }
+  })
+
   return (
     <div className='max-w-xl'>
       {error && (
@@ -42,14 +51,7 @@ export default function NewIssuePage() {
       )}
       <form
         className='space-y-3'
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            await axios.post('/api/issues', data)
-            router.push('/issues')
-          } catch (error) {
-            setError('An error has occurred')
-          }
-        })}
+        onSubmit={onSubmit}
       >
         <TextField.Root
           placeholder='Title'
