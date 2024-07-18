@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createIssueSchema } from '@/app/zod/zod-schema'
+import { issueSchema } from '@/app/zod/zod-schema'
 import prisma from '../../../prisma/client'
 
 interface Issue {
@@ -9,7 +9,7 @@ interface Issue {
 export async function POST(req: NextRequest) {
   const body = await req.json()
 
-  const validation = createIssueSchema.safeParse(body)
+  const validation = issueSchema.safeParse(body)
 
   const issue: Issue = {
     title: body.title,
