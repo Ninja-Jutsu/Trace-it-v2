@@ -4,7 +4,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Theme, ThemePanel } from '@radix-ui/themes'
 import StyledJsxRegistry from './lib/registry'
-import styled from 'styled-components'
 
 //components
 import NavBar from './NavBar'
