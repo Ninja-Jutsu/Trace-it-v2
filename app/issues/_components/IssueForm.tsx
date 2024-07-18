@@ -38,11 +38,20 @@ export default function IssueForm({ issue }: Props) {
   const [error, setError] = React.useState('')
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      await axios.post('/api/issues', data)
-      router.push('/issues')
-    } catch (error) {
-      setError('An error has occurred')
+    if (issue) {
+      try {
+        await axios.patch('/api/issues/' + issue.id, data)
+        router.push('/issues')
+      } catch (error) {
+        setError('An error has occurred while updating')
+      }
+    } else {
+      try {
+        await axios.post('/api/issues', data)
+        router.push('/issues')
+      } catch (error) {
+        setError('An error has occurred')
+      }
     }
   })
 
@@ -82,7 +91,12 @@ export default function IssueForm({ issue }: Props) {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button disabled={isSubmitting}>Submit New Issue {isSubmitting && <Spinner />}</Button>
+        <Button
+          disabled={isSubmitting}
+          style={{ cursor: 'pointer' }}
+        >
+          {issue ? 'Update issue' : 'Submit New Issue'} {isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   )
