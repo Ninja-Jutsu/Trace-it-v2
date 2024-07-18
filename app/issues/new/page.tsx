@@ -10,8 +10,8 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 // form validation
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createIssueSchema } from '@/app/zod/zod-schema'
 import { z } from 'zod'
+import { createIssueSchema } from '@/app/zod/zod-schema'
 import ErrorMessage from '@/app/components/ErrorMessage'
 
 // form submit
