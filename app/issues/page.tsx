@@ -1,6 +1,5 @@
 import { Table } from '@radix-ui/themes'
 import prisma from '@/prisma/client'
-import delay from 'delay'
 import Link from '../components/Link' // custom link
 
 //compo
@@ -9,7 +8,6 @@ import IssueActions from './IssueActions'
 
 export default async function IssuesPage() {
   const issues = await prisma.issue.findMany()
-  await delay(1000)
   return (
     <div>
       <IssueActions />

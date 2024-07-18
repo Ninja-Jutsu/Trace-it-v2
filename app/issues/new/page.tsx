@@ -1,10 +1,12 @@
 'use client'
-import React from 'react'
-import { TextArea, TextField, Button, Callout, Text } from '@radix-ui/themes'
+import React, { Suspense } from 'react'
+import { TextField, Button, Callout } from '@radix-ui/themes'
 
 // to lazy load SimpleMDEditor (to prevent document not defined error)
 import dynamic from 'next/dynamic'
 import 'easymde/dist/easymde.min.css'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 // form validation
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -53,12 +55,14 @@ export default function NewIssuePage() {
         className='space-y-3'
         onSubmit={onSubmit}
       >
-        <TextField.Root
-          placeholder='Title'
-          {...register('title')}
-        >
-          <TextField.Slot />
-        </TextField.Root>
+        <Suspense fallback={<p>Loading...</p>}>
+          <TextField.Root
+            placeholder='Title'
+            {...register('title')}
+          >
+            <TextField.Slot />
+          </TextField.Root>
+        </Suspense>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name='description'
@@ -79,7 +83,7 @@ export default function NewIssuePage() {
 
 const SimpleMDEditor = dynamic(() => import('react-simplemde-editor'), {
   ssr: false,
-  loading: () => <p>loading...</p>,
+  loading: () => <Skeleton height={'20rem'} />,
 })
 
 // interface IssueForm {
