@@ -1,30 +1,27 @@
 'use client'
 import { Button, Callout, TextField } from '@radix-ui/themes'
-import React, { Suspense } from 'react'
+import React from 'react'
 
-// to lazy load SimpleMDEditor (to prevent document not defined error)
+import { SimpleMdeReact } from 'react-simplemde-editor'
 import 'easymde/dist/easymde.min.css'
-import dynamic from 'next/dynamic'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
 
 // form validation
-import ErrorMessage from '@/app/components/ErrorMessage'
+import { z } from 'zod'
 import { issueSchema } from '@/app/zod/zod-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 
 // form submit
-import Spinner from '@/app/components/Spinner'
-import { Issue } from '@prisma/client'
 import axios from 'axios'
+import { ErrorMessage, Spinner } from '@/app/components'
+import { Issue } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
-import { revalidatePath } from 'next/cache'
 
 interface Props {
   issue?: Issue // make it optional because it's only needed on edit page
 }
+
+type IssueFormData = z.infer<typeof issueSchema>
 
 export default function IssueForm({ issue }: Props) {
   const {
@@ -74,22 +71,20 @@ export default function IssueForm({ issue }: Props) {
         className='space-y-3'
         onSubmit={onSubmit}
       >
-        <Suspense fallback={<p>Loading...</p>}>
-          <TextField.Root
-            defaultValue={issue?.title}
-            placeholder='Title'
-            {...register('title')}
-          >
-            <TextField.Slot />
-          </TextField.Root>
-        </Suspense>
+        <TextField.Root
+          defaultValue={issue?.title}
+          placeholder='Title'
+          {...register('title')}
+        >
+          <TextField.Slot />
+        </TextField.Root>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           defaultValue={issue?.description}
           name='description'
           control={control}
           render={({ field }) => (
-            <SimpleMDEditor
+            <SimpleMdeReact
               placeholder='description'
               {...field}
             />
@@ -107,14 +102,13 @@ export default function IssueForm({ issue }: Props) {
   )
 }
 
-const SimpleMDEditor = dynamic(() => import('react-simplemde-editor'), {
-  ssr: false,
-  loading: () => <Skeleton height={'20rem'} />,
-})
+// const SimpleMDEditor = dynamic(() => import('react-simplemde-editor'), {
+//   ssr: false,
+//   loading: () => <Skeleton height={'20rem'} />,
+// })
 
 // interface IssueForm {
 //   title: string
 //   description: string
 // }
 //instead
-type IssueFormData = z.infer<typeof issueSchema>

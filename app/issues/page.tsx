@@ -1,9 +1,8 @@
 import { Table } from '@radix-ui/themes'
 import prisma from '@/prisma/client'
-import Link from '../components/Link' // custom link
+import { Link, IssueStatusBadge } from '@/app/components'
 
 //compo
-import IssueStatusBadge from '../components/IssueStatusBadge' // custom compo
 import IssueActions from './IssueActions'
 
 export const dynamic = 'force-dynamic'
