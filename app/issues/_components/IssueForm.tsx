@@ -1,25 +1,26 @@
 'use client'
+import { Button, Callout, TextField } from '@radix-ui/themes'
 import React, { Suspense } from 'react'
-import { TextField, Button, Callout } from '@radix-ui/themes'
 
 // to lazy load SimpleMDEditor (to prevent document not defined error)
-import dynamic from 'next/dynamic'
 import 'easymde/dist/easymde.min.css'
+import dynamic from 'next/dynamic'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 // form validation
+import ErrorMessage from '@/app/components/ErrorMessage'
+import { issueSchema } from '@/app/zod/zod-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { issueSchema } from '@/app/zod/zod-schema'
-import ErrorMessage from '@/app/components/ErrorMessage'
 
 // form submit
-import axios from 'axios'
-import { useForm, Controller } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
 import Spinner from '@/app/components/Spinner'
 import { Issue } from '@prisma/client'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { Controller, useForm } from 'react-hook-form'
+import { revalidatePath } from 'next/cache'
 
 interface Props {
   issue?: Issue // make it optional because it's only needed on edit page
@@ -42,6 +43,8 @@ export default function IssueForm({ issue }: Props) {
       try {
         await axios.patch('/api/issues/' + issue.id, data)
         router.push('/issues')
+        // await revalidatePath('/issues', 'layout')
+        router.refresh()
       } catch (error) {
         setError('An error has occurred while updating')
       }
@@ -49,6 +52,8 @@ export default function IssueForm({ issue }: Props) {
       try {
         await axios.post('/api/issues', data)
         router.push('/issues')
+        // await revalidatePath('/issues', 'layout')
+        router.refresh()
       } catch (error) {
         setError('An error has occurred')
       }
