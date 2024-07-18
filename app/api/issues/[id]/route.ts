@@ -22,5 +22,6 @@ export async function PATCH(req: NextRequest, { params: { id } }: Props) {
     where: { id: parseInt(id) },
     data: { title: body.title, description: body.description },
   })
+
   return NextResponse.json(updatedIssue)
 }

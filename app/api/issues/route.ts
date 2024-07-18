@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { issueSchema } from '@/app/zod/zod-schema'
 import prisma from '../../../prisma/client'
+import { revalidatePath } from 'next/cache'
 
 interface Issue {
   title: string
@@ -20,6 +21,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(validation.error.format(), { status: 400 })
   }
   const newIssue = await prisma.issue.create({ data: issue })
+  revalidatePath('/', 'layout')
 
   return NextResponse.json(newIssue, { status: 201 })
 }

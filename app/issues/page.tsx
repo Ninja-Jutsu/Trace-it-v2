@@ -6,6 +6,9 @@ import Link from '../components/Link' // custom link
 import IssueStatusBadge from '../components/IssueStatusBadge' // custom compo
 import IssueActions from './IssueActions'
 
+export const dynamic = 'force-dynamic'
+// export const revalidate = 0 // both this and dynamic are the same
+
 export default async function IssuesPage() {
   const issues = await prisma.issue.findMany()
   return (
