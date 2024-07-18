@@ -16,13 +16,14 @@ import ErrorMessage from '@/app/components/ErrorMessage'
 import axios from 'axios'
 import { useForm, Controller } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import Spinner from '@/app/components/Spinner'
 
 export default function NewIssuePage() {
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   })
@@ -68,7 +69,7 @@ export default function NewIssuePage() {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Submit New Issue</Button>
+        <Button disabled={isSubmitting}>Submit New Issue {isSubmitting && <Spinner />}</Button>
       </form>
     </div>
   )
