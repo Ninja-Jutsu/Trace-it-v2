@@ -1,8 +1,7 @@
-import React from 'react'
 import prisma from '@/prisma/client'
+import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
 import LoadingNewPage from '../../_components/IssueFormSkeleton'
-import dynamic from 'next/dynamic'
 
 const IssueForm = dynamic(() => import('../../_components/IssueForm'), {
   ssr: false,

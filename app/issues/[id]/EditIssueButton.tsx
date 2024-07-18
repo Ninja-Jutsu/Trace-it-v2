@@ -1,10 +1,11 @@
 import { Pencil2Icon } from '@radix-ui/react-icons'
 import { Button } from '@radix-ui/themes'
 import Link from 'next/link'
+import { linkStyles, buttonStyles } from '../../../utils/constants'
 
 export default function EditIssueButton({ issueId }: { issueId: number }) {
   return (
-    <Button style={{ padding: '0px' }}>
+    <Button style={buttonStyles}>
       <Link
         href={`/issues/${issueId}/edit`}
         style={linkStyles}
@@ -15,5 +16,3 @@ export default function EditIssueButton({ issueId }: { issueId: number }) {
     </Button>
   )
 }
-
-const linkStyles = { width: '100%', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem' }
