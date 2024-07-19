@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import EditIssueButton from './EditIssueButton'
 import IssueDetails from './IssueDetails'
 import DeleteIssueButton from './DeleteIssueButton'
+import { getServerSession } from 'next-auth'
+import authOptions from '@/app/auth/authOptions'
 
 interface Props {
   params: {
@@ -12,6 +14,7 @@ interface Props {
 }
 
 export default async function IssueDetailsPage({ params: { id } }: Props) {
+  const session = await getServerSession(authOptions)
   if (typeof parseInt(id) !== 'number') {
     notFound()
   }
@@ -33,20 +36,19 @@ export default async function IssueDetailsPage({ params: { id } }: Props) {
       <Box className='lg:col-span-4'>
         <IssueDetails issue={issue} />
       </Box>
-
-      <Box className='mb-auto mt-auto'>
-        <Flex
-          gap='3'
-          direction='column'
-          align='center'
-          justify='center'
-        >
-          <EditIssueButton issueId={issue.id} />
-          <DeleteIssueButton issueId={issue.id} />
-        </Flex>
-      </Box>
+      {session && (
+        <Box className='mb-auto mt-auto'>
+          <Flex
+            gap='3'
+            direction='column'
+            align='center'
+            justify='center'
+          >
+            <EditIssueButton issueId={issue.id} />
+            <DeleteIssueButton issueId={issue.id} />
+          </Flex>
+        </Box>
+      )}
     </Grid>
   )
 }
-
-const linkStyles = { width: '100%', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem' }
