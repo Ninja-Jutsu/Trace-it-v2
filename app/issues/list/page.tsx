@@ -36,8 +36,14 @@ export default async function IssuesPage({ searchParams }: Props) {
               <Table.ColumnHeaderCell
                 key={column.value}
                 className={column?.className}
-              >
-                <Link href={`/issues/list?orderBy=${column.value}`}>{column.label}</Link>
+              > 
+                <Link
+                  href={{
+                    query: { ...searchParams, orderBy: column.value },
+                  }}
+                >
+                  {column.label}
+                </Link>
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
