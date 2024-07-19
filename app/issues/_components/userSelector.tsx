@@ -3,7 +3,6 @@ import { buttonStyles } from '@/utils/constants'
 import { Issue, User } from '@prisma/client'
 import { Select } from '@radix-ui/themes'
 import axios from 'axios'
-import React from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface Props {
@@ -12,18 +11,19 @@ interface Props {
 }
 
 export default function UserSelector({ users, issue }: Props) {
+  async function assignIssue(userId: string) {
+    try {
+      const assignedUser = await axios.patch(`/api/issues/${issue.id}`, { assignedToUserId: userId || null })
+      toast.success(`Issue Assigned to ${assignedUser.data.name}`)
+    } catch (error) {
+      toast.success('Issue is unassigned')
+    }
+  }
   return (
     <>
       <Select.Root
         defaultValue={issue.assignedToUserId || ''}
-        onValueChange={async (userId) => {
-          try {
-            const assignedUser = await axios.patch(`/api/issues/${issue.id}`, { assignedToUserId: userId || null })
-            toast.success(`Issue Assigned to ${assignedUser.data.name}`)
-          } catch (error) {
-            toast.success('Issue is unassigned')
-          }
-        }}
+        onValueChange={assignIssue}
       >
         <Select.Trigger
           style={buttonStyles}
@@ -47,7 +47,6 @@ export default function UserSelector({ users, issue }: Props) {
       <Toaster
         position='top-right'
         reverseOrder={false}
-      
       />
     </>
   )
