@@ -23,9 +23,13 @@ export default async function IssuesPage({ searchParams }: Props) {
   // protect query
   const statutes = Object.values(Status)
   const status = statutes.includes(searchParams.status) ? searchParams.status : undefined
+  const sortedBy = columns.map((column) => column.value).includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: 'asc' }
+    : undefined
 
   const issues = await prisma.issue.findMany({
     where: { status },
+    orderBy: sortedBy,
   })
   return (
     <div>
