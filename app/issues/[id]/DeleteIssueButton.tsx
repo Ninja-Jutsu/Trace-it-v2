@@ -1,21 +1,22 @@
 'use client'
 import { Cross1Icon } from '@radix-ui/react-icons'
-import { AlertDialog, Button, Flex } from '@radix-ui/themes'
+import { AlertDialog, Button, Flex, Text } from '@radix-ui/themes'
 import axios from 'axios'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { buttonStyles } from '../../../utils/constants'
 
 export default function DeleteIssueButton({ issueId }: { issueId: number }) {
-  const [error, setError] = React.useState('')
+  const [error, setError] = React.useState(false)
   const router = useRouter()
-  async function handleDelete() {
+
+  async function deleteIssue() {
     try {
       await axios.delete(`/api/issues/${issueId}`)
       router.push('/issues')
       router.refresh()
     } catch (error) {
-      setError('Something failed miserably!')
+      setError(true)
     }
   }
   return (
@@ -50,7 +51,7 @@ export default function DeleteIssueButton({ issueId }: { issueId: number }) {
             </AlertDialog.Cancel>
             <AlertDialog.Action>
               <Button
-                onClick={handleDelete}
+                onClick={deleteIssue}
                 color='tomato'
                 style={buttonStyles}
               >
@@ -58,6 +59,28 @@ export default function DeleteIssueButton({ issueId }: { issueId: number }) {
               </Button>
             </AlertDialog.Action>
           </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
+      <AlertDialog.Root open={error}>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Error</AlertDialog.Title>
+          <AlertDialog.Description>
+            <Flex gap='3'>
+              <Text>Failed to delete the issue! Try again later.</Text>
+              <AlertDialog.Action>
+                <Button
+                  color='gray'
+                  variant='soft'
+                  style={buttonStyles}
+                  onClick={() => {
+                    setError(false)
+                  }}
+                >
+                  Back
+                </Button>
+              </AlertDialog.Action>
+            </Flex>
+          </AlertDialog.Description>
         </AlertDialog.Content>
       </AlertDialog.Root>
     </>
