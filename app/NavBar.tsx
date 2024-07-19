@@ -6,6 +6,7 @@ import { FaBug } from 'react-icons/fa'
 import classNames from 'classnames'
 import { useSession } from 'next-auth/react'
 import { Avatar, Box, Container, DropdownMenu, Flex, Text } from '@radix-ui/themes'
+import { Skeleton } from '@/app/components'
 import styled from 'styled-components'
 
 export default function NavBar() {
@@ -63,13 +64,19 @@ function AuthStatus() {
   const { status, data: session } = useSession()
   if (status === 'loading')
     return (
-      <Avatar
-        fallback=''
-        size={'2'}
-        radius='full'
-        className='cursor-pointer'
-        color='tomato'
-      ></Avatar>
+      <>
+        {!session ? (
+          <Skeleton width='2.5rem' />
+        ) : (
+          <Avatar
+            fallback=''
+            size={'2'}
+            radius='full'
+            className='cursor-pointer'
+            color='tomato'
+          />
+        )}
+      </>
     )
   if (status === 'unauthenticated')
     return (
