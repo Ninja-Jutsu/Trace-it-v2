@@ -9,14 +9,6 @@ import { Avatar, Box, Container, DropdownMenu, Flex, Text } from '@radix-ui/them
 import styled from 'styled-components'
 
 export default function NavBar() {
-  const currentPath = usePathname()
-  const { status, data: session } = useSession()
-
-  const links = [
-    { label: 'Dashboard', href: '/' },
-    { label: 'Issues', href: '/issues/list' },
-  ]
-
   return (
     <nav className=' border-b mb-5 px-5 py-3'>
       <Container>
@@ -32,50 +24,85 @@ export default function NavBar() {
             <Link href={'/'}>
               <FaBug />
             </Link>
-            <ul className='flex space-x-6'>
-              {links.map(({ href, label }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className={classNames({
-                      'text-zinc-900': href === currentPath,
-                      'text-zinc-500': href !== currentPath,
-                      'hover:text-zinc-800 transition-colors': true,
-                    })}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <NavLinks />
           </Flex>
-          <Box>
-            {status === 'authenticated' && (
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
-                  <Avatar
-                    src={session.user!.image!}
-                    fallback='?'
-                    size={'2'}
-                    radius='full'
-                    className='cursor-pointer'
-                  />
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  <DropdownMenu.Label>
-                    <Text size='2'>{session.user!.email}</Text>
-                  </DropdownMenu.Label>
-                  <DropdownMenu.Item>
-                    <StyledLink href={'/api/auth/signout'}>Logout</StyledLink>
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
-            )}
-            {status === 'unauthenticated' && <Link href={'/api/auth/signin'}>Login</Link>}
-          </Box>
+          <AuthStatus />
         </Flex>
       </Container>
     </nav>
+  )
+}
+
+function NavLinks() {
+  const currentPath = usePathname()
+
+  const links = [
+    { label: 'Dashboard', href: '/' },
+    { label: 'Issues', href: '/issues/list' },
+  ]
+  return (
+    <ul className='flex space-x-6'>
+      {links.map(({ href, label }) => (
+        <li key={label}>
+          <Link
+            href={href}
+            className={classNames({
+              'nav-link': true,
+              '!text-zinc-900': href === currentPath,
+            })}
+          >
+            {label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function AuthStatus() {
+  const { status, data: session } = useSession()
+  if (status === 'loading')
+    return (
+      <Avatar
+        fallback=''
+        size={'2'}
+        radius='full'
+        className='cursor-pointer'
+        color='tomato'
+      ></Avatar>
+    )
+  if (status === 'unauthenticated')
+    return (
+      <Link
+        href={'/api/auth/signin'}
+        className='nav-link'
+      >
+        Login
+      </Link>
+    )
+
+  return (
+    <Box>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Avatar
+            src={session!.user!.image!}
+            fallback='?'
+            size={'2'}
+            radius='full'
+            className='cursor-pointer'
+          />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Label>
+            <Text size='2'>{session!.user!.email}</Text>
+          </DropdownMenu.Label>
+          <DropdownMenu.Item>
+            <StyledLink href={'/api/auth/signout'}>Logout</StyledLink>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </Box>
   )
 }
 
