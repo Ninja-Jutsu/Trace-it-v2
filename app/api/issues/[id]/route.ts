@@ -1,5 +1,5 @@
 import authOptions from '@/app/auth/authOptions'
-import { issueSchema } from '@/app/zod/zod-schema'
+import { issueSchema, patchIssueSchema } from '@/app/zod/zod-schema'
 import prisma from '@/prisma/client'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
@@ -13,9 +13,22 @@ export async function PATCH(req: NextRequest, { params: { id } }: Props) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'not logged in' }, { status: 401 })
   const body = await req.json()
+  const { title, description, assignedToUserId } = body
 
-  const validation = issueSchema.safeParse(body)
+  // Validate the body data
+  const validation = patchIssueSchema.safeParse(body)
   if (!validation.success) return NextResponse.json(validation.error.format(), { status: 400 })
+
+  // check if assigned user exists
+  if (assignedToUserId) {
+    const user = await prisma.user.findUnique({
+      where: { id: assignedToUserId },
+    })
+
+    if (!user) return NextResponse.json({ error: 'User not found!' }, { status: 400 })
+  }
+
+  //check if the issue exists
   const issue = await prisma.issue.findUnique({
     where: {
       id: parseInt(id),
@@ -23,9 +36,10 @@ export async function PATCH(req: NextRequest, { params: { id } }: Props) {
   })
   if (!issue) return NextResponse.json({ error: 'Issue not found!' }, { status: 404 })
 
+  // if all good update new fields
   const updatedIssue = await prisma.issue.update({
     where: { id: parseInt(id) },
-    data: { title: body.title, description: body.description },
+    data: { title, description, assignedToUserId },
   })
 
   return NextResponse.json(updatedIssue)

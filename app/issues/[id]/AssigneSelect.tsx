@@ -21,6 +21,7 @@ export default async function AssignSelect() {
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
+          <Select.Item value={'null'}>Unassign</Select.Item>
           {users.map((user) => (
             <Select.Item
               value={user.id!}
