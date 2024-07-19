@@ -16,6 +16,7 @@ import { ErrorMessage, Spinner } from '@/app/components'
 import { Issue } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
+import delay from 'delay'
 
 interface Props {
   issue?: Issue // make it optional because it's only needed on edit page
@@ -39,7 +40,7 @@ export default function IssueForm({ issue }: Props) {
     if (issue) {
       try {
         await axios.patch('/api/issues/' + issue.id, data)
-        router.push('/issues')
+        router.push('/issues/list')
         // await revalidatePath('/issues', 'layout')
         router.refresh()
       } catch (error) {
@@ -48,7 +49,7 @@ export default function IssueForm({ issue }: Props) {
     } else {
       try {
         await axios.post('/api/issues', data)
-        router.push('/issues')
+        router.push('/issues/list')
         // await revalidatePath('/issues', 'layout')
         router.refresh()
       } catch (error) {

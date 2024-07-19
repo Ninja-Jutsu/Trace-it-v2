@@ -6,6 +6,6 @@ const IssueForm = dynamic(() => import('../_components/IssueForm'), {
   loading: () => <LoadingNewPage />,
 })
 
-export default function NewIssuePage() {
+export default async function NewIssuePage() {
   return <IssueForm />
 }
