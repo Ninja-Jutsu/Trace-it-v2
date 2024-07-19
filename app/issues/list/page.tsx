@@ -1,4 +1,4 @@
-import { Table } from '@radix-ui/themes'
+import { Flex, Table } from '@radix-ui/themes'
 import prisma from '@/prisma/client'
 import { IssueStatusBadge } from '@/app/components'
 import Link from 'next/link'
@@ -6,11 +6,12 @@ import Link from 'next/link'
 //compo
 import IssueActions from './IssueActions'
 import { Issue, Status } from '@prisma/client'
+import { ArrowDownIcon, ArrowUpIcon } from '@radix-ui/react-icons'
 
 export const dynamic = 'force-dynamic'
 
 interface Props {
-  searchParams: { status: Status }
+  searchParams: { status: Status; orderBy: keyof Issue }
 }
 
 export default async function IssuesPage({ searchParams }: Props) {
@@ -36,14 +37,20 @@ export default async function IssuesPage({ searchParams }: Props) {
               <Table.ColumnHeaderCell
                 key={column.value}
                 className={column?.className}
-              > 
-                <Link
-                  href={{
-                    query: { ...searchParams, orderBy: column.value },
-                  }}
+              >
+                <Flex
+                  align='center'
+                  gap='1'
                 >
-                  {column.label}
-                </Link>
+                  <Link
+                    href={{
+                      query: { ...searchParams, orderBy: column.value },
+                    }}
+                  >
+                    {column.label}
+                  </Link>
+                  {column.value === searchParams.orderBy && <ArrowDownIcon />}
+                </Flex>
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
