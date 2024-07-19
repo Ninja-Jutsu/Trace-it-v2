@@ -1,10 +1,11 @@
 import { Table } from '@radix-ui/themes'
 import prisma from '@/prisma/client'
-import { Link, IssueStatusBadge } from '@/app/components'
+import { IssueStatusBadge } from '@/app/components'
+import Link from 'next/link'
 
 //compo
 import IssueActions from './IssueActions'
-import { Status } from '@prisma/client'
+import { Issue, Status } from '@prisma/client'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,6 +14,11 @@ interface Props {
 }
 
 export default async function IssuesPage({ searchParams }: Props) {
+  const columns: { label: string; value: keyof Issue; className?: string }[] = [
+    { label: 'Issue', value: 'title' },
+    { label: 'Status', value: 'status', className: 'hidden md:table-cell' },
+    { label: 'Created', value: 'createdAt', className: 'hidden md:table-cell' },
+  ]
   // protect query
   const statutes = Object.values(Status)
   const status = statutes.includes(searchParams.status) ? searchParams.status : undefined
@@ -26,13 +32,18 @@ export default async function IssuesPage({ searchParams }: Props) {
       <Table.Root variant='surface'>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>Status</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>Created</Table.ColumnHeaderCell>
+            {columns.map((column) => (
+              <Table.ColumnHeaderCell
+                key={column.value}
+                className={column?.className}
+              >
+                <Link href={`/issues/list?orderBy=${column.value}`}>{column.label}</Link>
+              </Table.ColumnHeaderCell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {issues.map(({ id, createdAt, description, title, status }) => (
+          {issues.map(({ id, createdAt, title, status }) => (
             <Table.Row key={id}>
               <Table.Cell>
                 <Link href={`/issues/${id}`}>{title}</Link>
