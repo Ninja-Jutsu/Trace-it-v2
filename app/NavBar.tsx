@@ -6,7 +6,7 @@ import { FaBug } from 'react-icons/fa'
 import classNames from 'classnames'
 import { useSession } from 'next-auth/react'
 import { Avatar, Box, Container, DropdownMenu, Flex, Text } from '@radix-ui/themes'
-import { DropdownMenuIcon } from '@radix-ui/react-icons'
+import styled from 'styled-components'
 
 export default function NavBar() {
   const currentPath = usePathname()
@@ -20,7 +20,11 @@ export default function NavBar() {
   return (
     <nav className=' border-b mb-5 px-5 py-3'>
       <Container>
-        <Flex justify='between'>
+        <Flex
+          justify='between'
+          className='h-10'
+          align='center'
+        >
           <Flex
             align='center'
             gap={'3'}
@@ -62,7 +66,7 @@ export default function NavBar() {
                     <Text size='2'>{session.user!.email}</Text>
                   </DropdownMenu.Label>
                   <DropdownMenu.Item>
-                    <Link href={'/api/auth/signout'}>Logout</Link>
+                    <StyledLink href={'/api/auth/signout'}>Logout</StyledLink>
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
@@ -74,3 +78,7 @@ export default function NavBar() {
     </nav>
   )
 }
+
+const StyledLink = styled(Link)`
+  width: 100%;
+`
