@@ -45,7 +45,7 @@ export default async function IssueDetailsPage({ params: { id } }: Props) {
             align='center'
             justify='center'
           >
-            <AssignSelect />
+            <AssignSelect issue={issue} />
             <EditIssueButton issueId={issue.id} />
             <DeleteIssueButton issueId={issue.id} />
           </Flex>

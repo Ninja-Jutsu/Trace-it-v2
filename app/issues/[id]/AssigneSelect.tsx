@@ -1,9 +1,12 @@
 import prisma from '@/prisma/client'
-import { buttonStyles } from '@/utils/constants'
-import { Select } from '@radix-ui/themes'
-import React from 'react'
+import UserSelector from '../_components/userSelector'
+import { Issue } from '@prisma/client'
 
-export default async function AssignSelect() {
+interface Props {
+  issue: Issue
+}
+
+export default async function AssignSelect({ issue }: Props) {
   const users = await prisma.user.findMany({
     orderBy: {
       name: 'asc',
@@ -13,25 +16,9 @@ export default async function AssignSelect() {
   if (!users) return null
 
   return (
-    <Select.Root size='3'>
-      <Select.Trigger
-        placeholder='Assign Issue'
-        style={buttonStyles}
-      />
-      <Select.Content>
-        <Select.Group>
-          <Select.Label>Suggestions</Select.Label>
-          <Select.Item value={'null'}>Unassign</Select.Item>
-          {users.map((user) => (
-            <Select.Item
-              value={user.id!}
-              key={user.name}
-            >
-              {user.name}
-            </Select.Item>
-          ))}
-        </Select.Group>
-      </Select.Content>
-    </Select.Root>
+    <UserSelector
+      users={users}
+      issue={issue}
+    />
   )
 }

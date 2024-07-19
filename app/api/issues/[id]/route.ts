@@ -10,8 +10,8 @@ interface Props {
 
 export async function PATCH(req: NextRequest, { params: { id } }: Props) {
   // protect route
-  const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ error: 'not logged in' }, { status: 401 })
+  // const session = await getServerSession(authOptions)
+  // if (!session) return NextResponse.json({ error: 'not logged in' }, { status: 401 })
   const body = await req.json()
   const { title, description, assignedToUserId } = body
 
@@ -24,7 +24,6 @@ export async function PATCH(req: NextRequest, { params: { id } }: Props) {
     const user = await prisma.user.findUnique({
       where: { id: assignedToUserId },
     })
-
     if (!user) return NextResponse.json({ error: 'User not found!' }, { status: 400 })
   }
 
