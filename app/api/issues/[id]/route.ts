@@ -1,6 +1,7 @@
 import authOptions from '@/app/auth/authOptions'
 import { issueSchema, patchIssueSchema } from '@/app/zod/zod-schema'
 import prisma from '@/prisma/client'
+import { User } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -40,8 +41,14 @@ export async function PATCH(req: NextRequest, { params: { id } }: Props) {
     where: { id: parseInt(id) },
     data: { title, description, assignedToUserId },
   })
+  let assignedUser
+  if (assignedToUserId) {
+    assignedUser = await prisma.user.findUnique({
+      where: { id: assignedToUserId },
+    })
+  }
 
-  return NextResponse.json(updatedIssue)
+  return NextResponse.json(assignedUser)
 }
 
 export async function DELETE(req: NextRequest, { params: { id } }: Props) {
