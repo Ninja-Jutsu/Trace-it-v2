@@ -2,21 +2,26 @@
 import { Cross1Icon } from '@radix-ui/react-icons'
 import { AlertDialog, Button, Flex, Text } from '@radix-ui/themes'
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import { buttonStyles } from '../../../utils/constants'
+import { Spinner } from '@/app/components'
 
 export default function DeleteIssueButton({ issueId }: { issueId: number }) {
   const [error, setError] = React.useState(false)
   const router = useRouter()
+  const [isDeleting, setDeleting] = React.useState(false)
 
   async function deleteIssue() {
+    setDeleting(true)
     try {
       await axios.delete(`/api/issues/${issueId}`)
       router.push('/issues')
       router.refresh()
+      setDeleting(false)
     } catch (error) {
       setError(true)
+      setDeleting(false)
     }
   }
   return (
@@ -26,9 +31,11 @@ export default function DeleteIssueButton({ issueId }: { issueId: number }) {
           <Button
             style={buttonStyles}
             color='tomato'
+            disabled={isDeleting}
           >
             <Cross1Icon />
             Delete Issue
+            {isDeleting && <Spinner />}
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
