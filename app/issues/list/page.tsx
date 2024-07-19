@@ -4,12 +4,22 @@ import { Link, IssueStatusBadge } from '@/app/components'
 
 //compo
 import IssueActions from './IssueActions'
+import { Status } from '@prisma/client'
 
 export const dynamic = 'force-dynamic'
-// export const revalidate = 0 // both this and dynamic are the same
 
-export default async function IssuesPage() {
-  const issues = await prisma.issue.findMany()
+interface Props {
+  searchParams: { status: Status }
+}
+
+export default async function IssuesPage({ searchParams }: Props) {
+  // protect query
+  const statutes = Object.values(Status)
+  const status = statutes.includes(searchParams.status) ? searchParams.status : undefined
+
+  const issues = await prisma.issue.findMany({
+    where: { status },
+  })
   return (
     <div>
       <IssueActions />
