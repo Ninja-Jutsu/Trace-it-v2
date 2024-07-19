@@ -9,6 +9,9 @@ export default async function AssignSelect() {
       name: 'asc',
     },
   })
+
+  if (!users) return null
+
   return (
     <Select.Root size='3'>
       <Select.Trigger
