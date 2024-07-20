@@ -10,6 +10,7 @@ import AuthProvider from './auth/AuthProvider'
 import NavBar from './NavBar'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,6 +19,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
+    <html
+      lang='en'
+      className={inter.className}
+    >
+      <body>
     <html
       lang='en'
       className={inter.className}
