@@ -1,15 +1,37 @@
-import Pagination from './components/Pagination'
+import prisma from '@/prisma/client'
+import IssuesSummary from './IssuesSummary'
 import LatestIssues from './LatestIssues'
 
 interface Props {
   searchParams: { page: string }
 }
 
-export default function Home({ searchParams: { page } }: Props) {
+export default async function Home({ searchParams: { page } }: Props) {
+  const open = await prisma.issue.count({
+    where: {
+      status: 'OPEN',
+    },
+  })
+  const closed = await prisma.issue.count({
+    where: {
+      status: 'CLOSED',
+    },
+  })
+
+  const inProgress = await prisma.issue.count({
+    where: {
+      status: 'IN_PROGRESS',
+    },
+  })
+
   return (
     <>
-      <div>Hello Ismail</div>
-      <LatestIssues />
+      {/* <LatestIssues /> */}
+      <IssuesSummary
+        open={open}
+        closed={closed}
+        inProgress={inProgress}
+      />
     </>
   )
 }
