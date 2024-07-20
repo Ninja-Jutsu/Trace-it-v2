@@ -9,7 +9,13 @@ import IssueTable from './IssueTable'
 // constants:
 import { columnsNames, IssueQuery } from './IssueTable'
 import { Flex } from '@radix-ui/themes'
+import { Metadata } from 'next'
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Trace-it - Issues List',
+  description: 'View all of project issues',
+}
 
 interface Props {
   searchParams: IssueQuery

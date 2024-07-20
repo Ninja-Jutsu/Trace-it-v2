@@ -3,6 +3,12 @@ import IssuesSummary from './IssuesSummary'
 import LatestIssues from './LatestIssues'
 import IssueChart from './IssueChart'
 import { Flex, Grid } from '@radix-ui/themes'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Trace-it - Dashboard',
+  description: 'View a summary of project issues',
+}
 
 interface Props {
   searchParams: { page: string }
