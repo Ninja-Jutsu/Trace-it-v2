@@ -21,6 +21,5 @@ const NewButton = styled(Button)`
 `
 const AddLink = styled(Link)`
   width: 100%;
-  /* height: 100%; */
   padding: 1rem;
 `
