@@ -3,6 +3,7 @@ import { buttonStyles } from '@/utils/constants'
 import { Issue, User } from '@prisma/client'
 import { Select } from '@radix-ui/themes'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface Props {
@@ -11,10 +12,12 @@ interface Props {
 }
 
 export default function UserSelector({ users, issue }: Props) {
+  const router = useRouter()
   async function assignIssue(userId: string) {
     try {
       const assignedUser = await axios.patch(`/api/issues/${issue.id}`, { assignedToUserId: userId || null })
-      toast.success(`Issue Assigned to ${assignedUser.data.name}`)
+      toast.success(assignedUser.data.name ? `Issue Assigned to ${assignedUser.data.name}` : 'Issue is unassigned')
+      router.refresh()
     } catch (error) {
       toast.success('Issue is unassigned')
     }
