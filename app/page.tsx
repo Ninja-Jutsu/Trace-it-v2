@@ -2,6 +2,7 @@ import prisma from '@/prisma/client'
 import IssuesSummary from './IssuesSummary'
 import LatestIssues from './LatestIssues'
 import IssueChart from './IssueChart'
+import { Flex, Grid } from '@radix-ui/themes'
 
 interface Props {
   searchParams: { page: string }
@@ -26,12 +27,26 @@ export default async function Home({ searchParams: { page } }: Props) {
   })
 
   return (
-    <>
-      <IssueChart
-        open={open}
-        closed={closed}
-        inProgress={inProgress}
-      />
-    </>
+    <Grid
+      columns={{ initial: '1', md: '2' }}
+      gap='5'
+    >
+      <Flex
+        direction='column'
+        gap='5'
+      >
+        <IssuesSummary
+          open={open}
+          closed={closed}
+          inProgress={inProgress}
+        />
+        <IssueChart
+          open={open}
+          closed={closed}
+          inProgress={inProgress}
+        />
+      </Flex>
+      <LatestIssues />
+    </Grid>
   )
 }
