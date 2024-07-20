@@ -16,7 +16,6 @@ import { ErrorMessage, Spinner } from '@/app/components'
 import { Issue } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
-import delay from 'delay'
 
 interface Props {
   issue?: Issue // make it optional because it's only needed on edit page
@@ -25,6 +24,8 @@ interface Props {
 type IssueFormData = z.infer<typeof issueSchema>
 
 export default function IssueForm({ issue }: Props) {
+  
+
   const {
     register,
     control,
