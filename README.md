@@ -1,34 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Trace-it:
 
-## Getting Started
+**Overview:**
+Accelerate software development with our robust issue tracking tool.
+Easily create, assign, and prioritize tasks to enhance team collaboration and project management.
+Ideal for agile development teams.
 
-First, run the development server:
+- Create a profile using Social Media accounts
+- Create issue for specific projects
+- Assign issue to a coworker or to yourself
+- Edit Issues created by you or assigned to you
+- View charts to monitor progress
+- Change Issue status from 'Open, In progress to closed'
+- Delete Issues
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Installation:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository: `git clone https://github.com/Ninja-Jutsu/trace-it-v2.git`
+2. Install dependencies: `npm install`
+3. Start the development server: `npm run dev`
+4. For the booking and the creation of rentals a connection to a sql DataBase is required (Check the actions)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+**Technology Stack:**
 
-## Learn More
+- Next.js
+- React
+- TypeScript
+- MySQL
+- Supabase
+- Prisma
+- Tailwind CSS
+- radix/ui
+- NextAuth
+- Zod
 
-To learn more about Next.js, take a look at the following resources:
+**Project Structure:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- pages: Individual page components
+- components: Reusable UI components
+- actions folder including actions for each page
+- api: API endpoints for fetching data
+- middleware file protecting admin routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**Contributing:**
+I welcome contributions! Please follow our code style and submit pull requests.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**License:**
+MIT

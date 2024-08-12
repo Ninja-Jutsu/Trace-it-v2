@@ -24,8 +24,6 @@ interface Props {
 type IssueFormData = z.infer<typeof issueSchema>
 
 export default function IssueForm({ issue }: Props) {
-  
-
   const {
     register,
     control,
@@ -42,7 +40,6 @@ export default function IssueForm({ issue }: Props) {
       try {
         await axios.patch('/api/issues/' + issue.id, data)
         router.push('/issues/list')
-        // await revalidatePath('/issues', 'layout')
         router.refresh()
       } catch (error) {
         setError('An error has occurred while updating')
@@ -51,7 +48,6 @@ export default function IssueForm({ issue }: Props) {
       try {
         await axios.post('/api/issues', data)
         router.push('/issues/list')
-        // await revalidatePath('/issues', 'layout')
         router.refresh()
       } catch (error) {
         setError('An error has occurred')
