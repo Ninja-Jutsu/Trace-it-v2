@@ -1,58 +1,39 @@
-import prisma from '@/prisma/client'
-import IssuesSummary from './IssuesSummary'
-import LatestIssues from './LatestIssues'
-import IssueChart from './IssueChart'
-import { Flex, Grid } from '@radix-ui/themes'
-import { Metadata } from 'next'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { FaBug } from 'react-icons/fa'
+import BackgroundBeamsDisplay from './components/BackGroundBeams'
 
-export const metadata: Metadata = {
-  title: 'Trace-it - Dashboard',
-  description: 'View a summary of project issues',
-}
+import { Inter, MedievalSharp } from 'next/font/google'
+import { TextGenerateEffect } from './components/ui/text-generate-effect'
+const inter = Inter({ subsets: ['latin'] })
+const medievalSharp = MedievalSharp({ weight: ['400'], subsets: ['latin'] })
 
-interface Props {
-  searchParams: { page: string }
-}
-
-export default async function Home({ searchParams: { page } }: Props) {
-  const open = await prisma.issue.count({
-    where: {
-      status: 'OPEN',
-    },
-  })
-  const closed = await prisma.issue.count({
-    where: {
-      status: 'CLOSED',
-    },
-  })
-
-  const inProgress = await prisma.issue.count({
-    where: {
-      status: 'IN_PROGRESS',
-    },
-  })
-
+export default function Home() {
   return (
-    <Grid
-      columns={{ initial: '1', md: '2' }}
-      gap='5'
-    >
-      <Flex
-        direction='column'
-        gap='5'
-      >
-        <IssuesSummary
-          open={open}
-          closed={closed}
-          inProgress={inProgress}
-        />
-        <IssueChart
-          open={open}
-          closed={closed}
-          inProgress={inProgress}
-        />
-      </Flex>
-      <LatestIssues />
-    </Grid>
+    <BackgroundBeamsDisplay>
+      <main className='mx-auto h-full'>
+        <section className='px-4 sm:px-8 h-max  grid lg:grid-cols-[1fr,400px] items-center gap-6'>
+          <div className='flex flex-col gap-6'>
+            <h1 className={`text-3xl md:text-6xl font-bold ${inter.className}`}>
+              <span className={`text-4xl md:text-7xl font-bold ${medievalSharp.className}`}>Trace it</span>. An Issue{' '}
+              <span className='text-primary'>Tracking</span> App
+            </h1>
+            <TextGenerateEffect
+              words={
+                'Accelerate software development with our robust issue tracking tool. Easily create, assign, and prioritize tasks to enhance team collaboration and project management. Ideal for agile development teams.'
+              }
+            />
+
+            <Button
+              asChild
+              className='mt-4 p-6 text-xl max-w-max'
+            >
+              <Link href='/'>Get Started</Link>
+            </Button>
+          </div>
+          <FaBug className='hidden sm:block w-[350px] h-[350px]' />
+        </section>
+      </main>
+    </BackgroundBeamsDisplay>
   )
 }

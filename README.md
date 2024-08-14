@@ -13,7 +13,6 @@ Ideal for agile development teams.
 - Change Issue status from 'Open, In progress to closed'
 - Delete Issues
 
-
 **Installation:**
 
 1. Clone the repository: `git clone https://github.com/Ninja-Jutsu/trace-it-v2.git`

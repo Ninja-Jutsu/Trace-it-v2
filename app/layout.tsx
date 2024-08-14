@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  
   return (
     <html
       lang='en'
@@ -28,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Theme accentColor='iris'>
               <NavBar />
               <main className='p-5'>
-                <Container>{children}</Container>
+                <Container >{children}</Container>
               </main>
               {/* <ThemePanel /> */}
             </Theme>

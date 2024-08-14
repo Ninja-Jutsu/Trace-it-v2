@@ -1,5 +1,5 @@
 import authOptions from '@/app/auth/authOptions'
-import { patchIssueSchema } from '@/app/zod/zod-schema'
+import { patchIssueSchema } from '@/app/(main-app)/zod/zod-schema'
 import prisma from '@/prisma/client'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
