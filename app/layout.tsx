@@ -17,7 +17,6 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  
   return (
     <html
       lang='en'
@@ -27,11 +26,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StyledJsxRegistry>
           <AuthProvider>
             <Theme accentColor='iris'>
-              <NavBar />
-              <main className='p-5'>
-                <Container >{children}</Container>
-              </main>
-              {/* <ThemePanel /> */}
+              <div className='flex flex-col h-[100vh]'>
+                <NavBar />
+                <main className='p-5 flex-1'>
+                  <Container className='flex flex-col justify-center h-full'>{children}</Container>
+                </main>
+                {/* <ThemePanel /> */}
+              </div>
             </Theme>
           </AuthProvider>
         </StyledJsxRegistry>

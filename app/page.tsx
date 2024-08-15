@@ -28,7 +28,7 @@ export default function Home() {
               asChild
               className='mt-4 p-6 text-xl max-w-max'
             >
-              <Link href='/'>Get Started</Link>
+              <Link href='/issues/list'>Get Started</Link>
             </Button>
           </div>
           <FaBug className='hidden sm:block w-[350px] h-[350px]' />

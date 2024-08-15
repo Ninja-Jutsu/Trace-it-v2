@@ -84,7 +84,7 @@ export const BackgroundBeams = React.memo(({ className }: { className?: string }
             d={path}
             stroke={`url(#linearGradient-${index})`}
             strokeOpacity='1'
-            strokeWidth='0.5'
+            strokeWidth='1'
           ></motion.path>
         ))}
         <defs>
@@ -93,16 +93,16 @@ export const BackgroundBeams = React.memo(({ className }: { className?: string }
               id={`linearGradient-${index}`}
               key={`gradient-${index}`}
               initial={{
-                x1: '0%',
-                x2: '0%',
-                y1: '0%',
-                y2: '0%',
+                x1: '100%',
+                x2: '100%',
+                y1: '100%',
+                y2: '100%',
               }}
               animate={{
-                x1: ['0%', '100%'],
-                x2: ['0%', '95%'],
-                y1: ['0%', '100%'],
-                y2: ['0%', `${93 + Math.random() * 8}%`],
+                x1: ['20%', '100%'],
+                x2: ['20%', '95%'],
+                y1: ['20%', '100%'],
+                y2: ['20%', `${93 + Math.random() * 8}%`],
               }}
               transition={{
                 duration: Math.random() * 10 + 10,

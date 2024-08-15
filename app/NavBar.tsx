@@ -12,7 +12,7 @@ import styled from 'styled-components'
 export default function NavBar() {
   return (
     <nav className='border-b flex h-20 items-center'>
-      <Container >
+      <Container>
         <Flex
           justify='between'
           className='h-10'
@@ -22,15 +22,14 @@ export default function NavBar() {
             align='center'
             gap={'3'}
           >
-              <Link
-                href={'/'}
-                className='block'
-              >
-                <FaBug className='w-8 h-8 ml-5 sm:w-16 sm:h-16' />
-              </Link>
-
-            <NavLinks />
+            <Link
+              href={'/'}
+              className='block'
+            >
+              <FaBug className='w-8 h-8 ml-5 sm:w-12 sm:h-12' />
+            </Link>
           </Flex>
+          <NavLinks />
           <AuthStatus />
         </Flex>
       </Container>
@@ -54,6 +53,7 @@ function NavLinks() {
             className={classNames({
               'nav-link': true,
               '!text-zinc-900': href === currentPath,
+              'text-xl': true
             })}
           >
             {label}
@@ -76,7 +76,7 @@ function AuthStatus() {
             fallback=''
             size={'2'}
             radius='full'
-            className='cursor-pointer'
+            className='cursor-pointer mr-5'
             color='tomato'
           />
         )}
@@ -86,7 +86,7 @@ function AuthStatus() {
     return (
       <Link
         href={'/api/auth/signin'}
-        className='nav-link mr-5'
+        className='nav-link mr-5 text-xl'
       >
         Login
       </Link>
